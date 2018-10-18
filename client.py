@@ -30,7 +30,7 @@ class OrangeDataClient(object):
     __order_request = None
     __correction_request = None
 
-    def __init__(self, inn, api_url, sign_pkey, client_key, client_cert, ca_cert, client_cert_pass):
+    def __init__(self, inn, api_url, sign_pkey, client_key, client_cert, ca_cert=None, client_cert_pass=None):
         """
         :param inn:
         :param api_url:
@@ -138,7 +138,7 @@ class OrangeDataClient(object):
             13 – Иной предмет расчета
         :return:
         """
-        if isinstance(quantity, float) and isinstance(price, Decimal) and tax in [1, 2, 3, 4, 5, 6] and len(text) < 129:
+        if isinstance(quantity, (float, int)) and isinstance(price, Decimal) and tax in [1, 2, 3, 4, 5, 6] and len(text) < 129:
             position = dict()
             position['quantity'] = quantity
             position['price'] = float(price)
