@@ -40,7 +40,7 @@ client.add_user_attribute(**agent_user_attribute_kwargs)
 client.send_order()
 ```
 
-* получение чека - если произойдёт ошибка получения, будет исключение
+* получение чека
 ```python
 order = client.get_order_status(order_id)
 ```
@@ -53,7 +53,22 @@ client.create_correction(**correction_kwargs)
 client.post_correction()
 ```
 
-* получение коррекции - если произойдёт ошибка получения, будет исключение
+* получение коррекции
 ```python
 correction = client.get_correction_status(correction_number)
 ```
+
+Методы, которые отправляют данные на апи (send_order, get_order_status, post_correction, get_correction_status) 
+имеют схожий формат возвращаемых данных:
+
+```python
+>>> client.send_order()
+{
+    'code': 201,
+    'data': '',
+    'headers': {...}
+}
+```
+* `code` - код ответа от сервера
+* `data` - декодированное тело ответа
+* `headers` - заголовки ответа
