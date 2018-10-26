@@ -336,7 +336,7 @@ class OrangeDataClient(object):
             14 – сумма по чеку предоплатой (зачетом аванса и (или) предыдущих платежей), 1215
             15 – сумма по чеку постоплатой (в кредит), 1216
             16 – сумма по чеку (БСО) встречным предоставлением, 1217
-        :param amount: Сумма оплаты (Десятичное число с точностью до 2 символов после точки*)
+        :param amount: Сумма оплаты, 1020 (Десятичное число с точностью до 2 символов после точки*)
         :type type_: int
         :type amount: Decimal
         :return:
@@ -485,7 +485,6 @@ class OrangeDataClient(object):
     def send_order(self):
         """
         Отправка чека
-        :return: кортеж (<успешность операции>, <ответ>)
         """
         headers = {
             'Accept': 'application/json',
@@ -496,7 +495,7 @@ class OrangeDataClient(object):
         response = requests.post(urllib.parse.urljoin(self.__api_url, '/api/v2/documents/'), json=self.__order_request,
                                  headers=headers, cert=(self.__client_cert, self.__client_key))
 
-        return self.__create_response(response.status_code, response.content)
+        return self.__create_response(response)
 
     def get_order_status(self, id_):
         """
@@ -515,7 +514,7 @@ class OrangeDataClient(object):
 
         response = requests.get(url, cert=(self.__client_cert, self.__client_key))
 
-        return self.__create_response(response.status_code, response.content)
+        return self.__create_response(response)
 
     def create_correction(self, id_, correction_type, type_, description, cause_document_date, cause_document_number,
                           total_sum, cash_sum, e_cash_sum, pre_payment_sum, post_payment_sum, other_payment_sum,
@@ -642,7 +641,7 @@ class OrangeDataClient(object):
                                  json=self.__correction_request, headers=headers,
                                  cert=(self.__client_cert, self.__client_key))
 
-        return self.__create_response(response.status_code, response.content)
+        return self.__create_response(response)
 
     def get_correction_status(self, id_):
         """
@@ -661,11 +660,17 @@ class OrangeDataClient(object):
 
         response = requests.get(url, cert=(self.__client_cert, self.__client_key))
 
-        return self.__create_response(response.status_code, response.content)
+        return self.__create_response(response)
 
     @staticmethod
-    def __create_response(code, content):
+    def __create_response(response):
+        """
+        :param response: Http-response
+        :type response: requests.Response
+        :return:
+        """
         return {
-            'code': code,
-            'data': content.decode(),
+            'code': response.status_code,
+            'data': response.content.decode(),
+            'headers': response.headers,
         }
