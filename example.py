@@ -17,7 +17,7 @@ def main():
 
     order_number = 'teleport-201810181602'
 
-    client.create_order(order_number, 1, 'example@example.com', 1)
+    client.create_order(order_number, 1, 'example@example.com', 1, 'main', '3123011520')
 
     client.add_position_to_order(6.123456, Decimal('10.'), 1, 'matches', 1, 10)
     client.add_position_to_order(7, Decimal(10), 1, 'matches2', 4, 10)
