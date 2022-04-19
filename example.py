@@ -6,34 +6,38 @@ from client import OrangeDataClient
 
 def main():
     config = {
-        'inn': '3123011520',
+        'inn': '7725327863',
         'api_url': 'https://apip.orangedata.ru:2443',
-        'sign_pkey': 'private_key.pem',
+        'sign_private_key': 'private_key.pem',
         'client_key': 'client.key',
-        'client_cert': 'client.crt',
+        'client_cert': 'client.crt'
     }
 
     client = OrangeDataClient(**config)
 
     order_number = 'teleport-201810181602'
 
-    client.create_order(order_number, 1, 'example@example.com', 1, 'main', '3123011520')
+    client.create_order(order_number, 1, 'example@example.com', 1, 'main_2', '3123011520', 4)
 
-    client.add_position_to_order(6.123456, Decimal('10.'), 1, 'matches', 1, 10)
-    client.add_position_to_order(7, Decimal(10), 1, 'matches2', 4, 10)
-    client.add_position_to_order(345., Decimal(10.76), 1, 'matches3', 3)
-
+    client.add_position_to_order(6.123456, Decimal('10.'), 1, 'matches', 1, 10,
+                                 '12345678909', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '', '', 0, 0, 0, '', 0, 1, 2, '012', '17.04.2022', '312344', '12345456')
+    # client.add_position_to_order(7, Decimal(10), 1, 'matches2', 4, 10)
+    # client.add_position_to_order(345., Decimal(10.76), 1, 'matches3', 3)
+    #
     client.add_payment_to_order(1, Decimal(131.23))
-    client.add_payment_to_order(2, Decimal(3712.2))
+    # client.add_payment_to_order(2, Decimal(3712.2))
 
-    client.add_agent_to_order(127, ['+79998887766', '+76667778899'], 'Operation', ['+79998887766'], ['+79998887766'],
-                              'Name', 'ulitsa Adress, dom 7', '3123011520', ['+79998887766', '+76667778899'])
+    # client.add_agent_to_order(127, ['+79998887766', '+76667778899'], 'Operation', ['+79998887766'], ['+79998887766'],
+    #                           'Name', 'ulitsa Adress, dom 7', '3123011520', ['+79998887766', '+76667778899'])
 
     client.add_user_attribute('Любимая цитата', 'В здоровом теле здоровый дух, этот лозунг еще не потух!')
 
-    # client.send_order()
+    # result = client.send_order()
 
-    # order = client.get_order_status('teleport-201810181601')
+    # order = client.get_order_status('teleport-201810181602')
+
+    # print(order)
+    # print(result)
 
     client.create_correction(
         order_number,
@@ -87,15 +91,56 @@ def main():
         '1',
         # group Группа устройств, с помощью которых будет пробит чек Строка от 1 до 32 символов или None. 
         # Опциональный параметр.
-        None,
         # key Название ключа который должен быть использован для проверки подпись. Опциональный параметр. 
         # Если имя ключа не указано для проверки подписи будет использован ключ, заданный по умолчанию.
         # Строка от 1 до 32 символов либо None
     )
 
-    client.post_correction()
+    # client.post_correction()
 
-    print(client.get_correction_status(order_number))
+    client.create_correction12(
+        order_number,
+        0,  # correctionType 1173, тип коррекции
+        # 0. Самостоятельно
+        # 1. По предписанию
+        3,  # type Признак расчета, 1054:
+        # 1. Приход
+        # 3. Расход
+        datetime.now(),
+        # causeDocumentDate DateTime объект .1178, дата документа основания для коррекции В данном реквизите время
+        # всегда приводится, к 00:00:00.  Время в виде строки в формате ISO8601
+        '56ce',
+        # causeDocumentNumber 1179, номер документа основания для коррекции Строка от 1 до 32 символов
+        567.9,
+        # totalSum 1020, сумма расчета, указанного в чеке (БСО) Десятичное число с точностью до 2 символов после точки
+        'liza97@yan.ru',  # телефон или электронный адрес покупателя
+        0,
+        # vat1Sum 1102, сумма НДС чека по ставке 20% Десятичное число с точностью до 2 символов после точки
+        0,
+        # vat2Sum 1103, сумма НДС чека по ставке 10% Десятичное число с точностью до 2 символов после точки
+        0,
+        # vat3Sum 1104, сумма расчета по чеку с НДС по ставке 0% Десятичное число с точностью до 2 символов после точки
+        0,
+        # vat4Sum 1105, сумма расчета по чеку без НДС Десятичное число с точностью до 2 символов после точки
+        0,
+        # vat5Sum 1106, сумма НДС чека по расч. ставке 20/120 Десятичное число с точностью до 2 символов после точки
+        0,
+        # vat6Sum 1107, сумма НДС чека по расч. ставке 10/110 Десятичное число с точностью до 2 символов после точки
+        'main_2',
+        # group Группа устройств, с помощью которых будет пробит чек Строка от 1 до 32 символов или None.
+        # Опциональный параметр.
+        # key Название ключа который должен быть использован для проверки подпись. Опциональный параметр.
+        # Если имя ключа не указано для проверки подписи будет использован ключ, заданный по умолчанию.
+        # Строка от 1 до 32 символов либо None
+    )
+
+    # для ФФД1.2 можно добавлять позицию и платеж в коррекцию
+    client.add_position_to_correction(6.123456, Decimal('10.'), 1, 'matches', 1, 10, '1234567809', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '',  0, 0, 0, '', 0, 1, 2, '012', '17.04.2022', '312344', '12345456')
+
+    client.add_payment_to_correction(1, Decimal(131.23))
+    # result = client.post_correction12()
+    # print(result)
+    # print(client.get_correction_status(order_number))
 
 
 if __name__ == '__main__':

@@ -11,6 +11,16 @@ def phone_is_valid(phone):
     return True if re.match(r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$', phone) else False
 
 
+def email_is_valid(email):
+    """
+    :param email: E-mail для валидации
+    :type email: str
+    :return: Результат валидации
+    :rtype: bool
+    """
+    return True if re.match(r'^[^@]+@[^@]+\.[^@]+$', email) else False
+
+
 def length_is_valid(obj, min_=None, max_=None):
     """
     :param obj: Любой объект, у которого релизован метод __len__
