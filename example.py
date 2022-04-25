@@ -20,7 +20,7 @@ def main():
     client.create_order(order_number, 1, 'example@example.com', 1, 'main_2', '3123011520', 4)
 
     client.add_position_to_order(6.123456, Decimal('10.'), 1, 'matches', 1, 10,
-                                 '12345678909', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '', '', 0, 0, 0, '', 0, 1, 2, '012', '17.04.2022', '312344', '12345456')
+                                 '7704218694', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '012', '17.04.2022', '312344', '12345456')
     # client.add_position_to_order(7, Decimal(10), 1, 'matches2', 4, 10)
     # client.add_position_to_order(345., Decimal(10.76), 1, 'matches3', 3)
     #
@@ -32,12 +32,13 @@ def main():
 
     client.add_user_attribute('Любимая цитата', 'В здоровом теле здоровый дух, этот лозунг еще не потух!')
 
-    # result = client.send_order()
+    result = client.send_order()
+    print('---Создание чека---\n')
+    print(result)
 
-    # order = client.get_order_status('teleport-201810181602')
-
-    # print(order)
-    # print(result)
+    order = client.get_order_status(order_number)
+    print('\n---Получение чека---\n')
+    print(order)
 
     client.create_correction(
         order_number,
@@ -51,7 +52,7 @@ def main():
         datetime.now(),
         # causeDocumentDate DateTime объект .1178, дата документа основания для коррекции В данном реквизите время 
         # всегда приводится, к 00:00:00.  Время в виде строки в формате ISO8601
-        '56ce',
+        '56789',
         # causeDocumentNumber 1179, номер документа основания для коррекции Строка от 1 до 32 символов
         567.9,
         # totalSum 1020, сумма расчета, указанного в чеке (БСО) Десятичное число с точностью до 2 символов после точки
@@ -99,7 +100,7 @@ def main():
     # client.post_correction()
 
     client.create_correction12(
-        order_number,
+        '13243546',
         0,  # correctionType 1173, тип коррекции
         # 0. Самостоятельно
         # 1. По предписанию
@@ -109,9 +110,9 @@ def main():
         datetime.now(),
         # causeDocumentDate DateTime объект .1178, дата документа основания для коррекции В данном реквизите время
         # всегда приводится, к 00:00:00.  Время в виде строки в формате ISO8601
-        '56ce',
+        '56789',
         # causeDocumentNumber 1179, номер документа основания для коррекции Строка от 1 до 32 символов
-        567.9,
+        130.0,
         # totalSum 1020, сумма расчета, указанного в чеке (БСО) Десятичное число с точностью до 2 символов после точки
         'liza97@yan.ru',  # телефон или электронный адрес покупателя
         0,
@@ -135,12 +136,14 @@ def main():
     )
 
     # для ФФД1.2 можно добавлять позицию и платеж в коррекцию
-    client.add_position_to_correction(6.123456, Decimal('10.'), 1, 'matches', 1, 10, '1234567809', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '',  0, 0, 0, '', 0, 1, 2, '012', '17.04.2022', '312344', '12345456')
+    client.add_position_to_correction(13, Decimal('10'), 1, 'matches', 1, 10, '1234567809', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '',  0, 0, 0, '', 0, 0, 0, '012', '17.04.2022', '312344', '12345456')
 
-    client.add_payment_to_correction(1, Decimal(131.23))
-    # result = client.post_correction12()
-    # print(result)
-    # print(client.get_correction_status(order_number))
+    client.add_payment_to_correction(1, Decimal(130))
+    result = client.post_correction12()
+    print('\n---Создание чека коррекции ФФД 1.2---\n')
+    print(result)
+    print('\n---Получение чека коррекции ФФД 1.2---\n')
+    print(client.get_correction_status12('13243546'))
 
 
 if __name__ == '__main__':

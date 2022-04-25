@@ -406,7 +406,7 @@ class OrangeDataClient(object):
 
         if self.__order_request['content']['ffdVersion'] == 4:  # FFD1.2
             if quantity_measurement_unit:
-                if length_is_valid(quantity_measurement_unit, 0, 255):
+                if 0 <= quantity_measurement_unit < 256:
                     position['quantityMeasurementUnit'] = quantity_measurement_unit
                 else:
                     raise OrangeDataClientValidationError('Invalid quantity_measurement_unit')
@@ -421,14 +421,15 @@ class OrangeDataClient(object):
                 else:
                     raise OrangeDataClientValidationError('Invalid planned_status')
 
-            position['fractionalQuantity'] = {}
             if fractional_quantity_numerator:
                 if isinstance(fractional_quantity_numerator, int):
+                    position['fractionalQuantity'] = {}
                     position['fractionalQuantity']['Numerator'] = fractional_quantity_numerator
                 else:
                     raise OrangeDataClientValidationError('Invalid fractional_quantity_numerator')
+
             if fractional_quantity_denominator:
-                if  isinstance(fractional_quantity_denominator, int):
+                if isinstance(fractional_quantity_denominator, int):
                     position['fractionalQuantity']['Denominator'] = fractional_quantity_denominator
                 else:
                     raise OrangeDataClientValidationError('Invalid fractional_quantity_denominator')
@@ -1252,9 +1253,8 @@ class OrangeDataClient(object):
             else:
                 raise OrangeDataClientValidationError('Invalid unit_tax_sum')
 
-
         if quantity_measurement_unit:
-            if length_is_valid(quantity_measurement_unit, 0, 255):
+            if 0 <= quantity_measurement_unit < 256:
                 position['quantityMeasurementUnit'] = quantity_measurement_unit
             else:
                 raise OrangeDataClientValidationError('Invalid quantity_measurement_unit')
@@ -1269,9 +1269,9 @@ class OrangeDataClient(object):
             else:
                 raise OrangeDataClientValidationError('Invalid planned_status')
 
-        position['fractionalQuantity'] = {}
         if fractional_quantity_numerator:
             if isinstance(fractional_quantity_numerator, int):
+                position['fractionalQuantity'] = {}
                 position['fractionalQuantity']['Numerator'] = fractional_quantity_numerator
             else:
                 raise OrangeDataClientValidationError('Invalid fractional_quantity_numerator')
@@ -1393,6 +1393,25 @@ class OrangeDataClient(object):
             self.__correction_request['content']['checkClose']['payments'].append(payment)
         else:
             raise OrangeDataClientValidationError('Invalid Payment Type or Amount')
+
+    def get_correction_status12(self, id_):
+        """
+        Проверка состояния чека-коррекции ФФД1.2
+        :param id_: Идентификатор документа (Строка от 1 до 32 символов)
+        :type id_: str
+        :return:
+        """
+        if not length_is_valid(id_, 1, 32):
+            raise OrangeDataClientValidationError('Invalid order identifier')
+
+        url = urllib.parse.urljoin(
+            self.__api_url,
+            '/api/v2/correction12/{inn}/status/{document_id}'.format(inn=self.__inn, document_id=id_)
+        )
+
+        response = requests.get(url, cert=(self.__client_cert, self.__client_key))
+
+        return self.__create_response(response)
 
     @staticmethod
     def __create_response(response):
