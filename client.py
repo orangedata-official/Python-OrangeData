@@ -719,7 +719,7 @@ class OrangeDataClient(object):
                           tax_1_sum, tax_2_sum, tax_3_sum, tax_4_sum, tax_5_sum, tax_6_sum, taxation_system, group=None,
                           key=None):
         """
-        Создание чека-коррекции
+        Создание чека-коррекции для ФФД 1.05
         :param id_: Идентификатор документа (Строка от 1 до 32 символов)
         :param correction_type: 1173, тип коррекции (Число):
             0 - Самостоятельно
@@ -826,7 +826,7 @@ class OrangeDataClient(object):
 
     def post_correction(self):
         """
-        Отправка чека-коррекции на обработку
+        Отправка чека-коррекции на обработку для ФФД 1.05
         :return:
         """
         headers = {
@@ -843,7 +843,7 @@ class OrangeDataClient(object):
 
     def get_correction_status(self, id_):
         """
-        Проверка состояния чека-коррекции
+        Проверка состояния чека-коррекции для ФФД 1.05
         :param id_: Идентификатор документа (Строка от 1 до 32 символов)
         :type id_: str
         :return:
@@ -952,7 +952,7 @@ class OrangeDataClient(object):
 
     def post_correction12(self):
         """
-        Отправка чека-коррекции на обработку
+        Отправка чека-коррекции на обработку для ФФД1.2
         :return:
         """
         headers = {

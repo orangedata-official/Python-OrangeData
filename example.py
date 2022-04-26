@@ -15,11 +15,11 @@ def main():
 
     client = OrangeDataClient(**config)
 
-    order_number = 'teleport-201810181602'
+    order_number = 'teleport-201810181604'
 
-    client.create_order(order_number, 1, 'example@example.com', 1, 'main_2', '3123011520', 4)
+    client.create_order(order_number, 1, 'example@example.com', 1, 'main_2', '7725327863', 4)
 
-    client.add_position_to_order(6.123456, Decimal('10.'), 1, 'matches', 1, 10,
+    client.add_position_to_order(2.83, Decimal('10.51'), 1, 'Спички', 1, 10,
                                  '7704218694', [], 'supplier', 0, [], '', [], [], '', '', '', '', '', '', '', 0, 0, 0, '', 0, 0, 0, '012', '17.04.2022', '312344', '12345456')
     # client.add_position_to_order(7, Decimal(10), 1, 'matches2', 4, 10)
     # client.add_position_to_order(345., Decimal(10.76), 1, 'matches3', 3)

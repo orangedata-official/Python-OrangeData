@@ -4,7 +4,7 @@
 
 Python integration for OrangeData service
 
-Актуальная версия библиотеки: `2.1.1`
+Актуальная версия библиотеки: `2.28.2`
 
 ##### Использование:
 * создать объект класса `OrangeDataClient`
@@ -45,7 +45,7 @@ client.send_order()
 order = client.get_order_status(order_id)
 ```
 
-* создание коррекции
+* создание коррекции ФФД 1.05
 ```python
 client.create_correction(**correction_kwargs)
 
@@ -58,7 +58,19 @@ client.post_correction()
 correction = client.get_correction_status(correction_number)
 ```
 
-Методы, которые отправляют данные на апи (send_order, get_order_status, post_correction, get_correction_status) 
+* создание коррекции ФФД 1.2
+```python
+client.create_correction12(**correction_kwargs)
+
+# отправка сформированной коррекции
+client.post_correction12()
+```
+* получение коррекции ФФД 1.2
+```python
+correction = client.get_correction_status12(correction_number)
+```
+
+Методы, которые отправляют данные на апи (send_order, get_order_status, post_correction, get_correction_status и т.д.) 
 имеют схожий формат возвращаемых данных:
 
 ```python
